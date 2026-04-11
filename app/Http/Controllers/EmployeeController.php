@@ -11,15 +11,15 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return 'All Employees';
+        return "Employees -> index";
     }
- 
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        return "Employees -> store";
     }
 
     /**
@@ -27,7 +27,7 @@ class EmployeeController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return "Employees -> show";
     }
 
     /**
@@ -35,7 +35,7 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        return "Employees -> update";
     }
 
     /**
@@ -43,6 +43,41 @@ class EmployeeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        return "Employees -> destroy";
+    }
+
+    public function withdraw()
+    {
+        return "Employees -> withdraw";
+    }
+
+    public function candidate()
+    {
+        return "Employees -> candidate";
+    }
+
+    public function new()
+    {
+        return "Employees -> new";
+    }
+
+    public function training()
+    {
+        return "Employees -> training";
+    }
+
+    public function vacations()
+    {
+        return "Employees -> vacations";
+    }
+
+    public function dayOff()
+    {
+        return "Employees -> dayOff";
+    }
+
+    public function permissions(string $type)
+    {
+        return "Employees -> permissions";
     }
 }
