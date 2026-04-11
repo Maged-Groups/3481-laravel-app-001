@@ -1,84 +1,54 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\{
+    TaskController,
+    EmployeeController,
+    ProductController
+};
 
-Route::get('about', function () {
-    return 'Welcome to about us page';
+Route::prefix('tasks')->group(function () {
+    // Route::get('/', 'App\Http\Controllers\TaskController@index');
+
+    // Route::get('/create', 'App\Http\Controllers\TaskController@create');
+
+    // Route::post('/', 'App\Http\Controllers\TaskController@store');
+
+    // Route::get('/{task}', 'App\Http\Controllers\TaskController@show');
+
+    // Route::get('/{task}/edit', 'App\Http\Controllers\TaskController@edit');
+
+    // Route::put('/{task}', 'App\Http\Controllers\TaskController@update');
+
+    // Route::delete('/{task}', 'App\Http\Controllers\TaskController@destroy');
+
+    // OR
+    // Route::get('/', [TaskController::class, 'index']);
+    // Route::get('/create', [TaskController::class, 'create']);
+    // Route::post('/', [TaskController::class, 'store']);
+    // Route::get('/{task}', [TaskController::class, 'show']);
+    // Route::get('/{task}/edit', [TaskController::class, 'edit']);
+    // Route::put('/{task}', [TaskController::class, 'update']);
+    // Route::delete('/{task}', [TaskController::class, 'destroy']);
 });
 
-Route::view('contact-us', 'static.contact.index');
-Route::redirect('contacts', 'contact-us', 301);
+// OR
+// Route::prefix('tasks')->controller(TaskController::class)->group(function () {
+//     Route::get('/', 'index');
+//     Route::get('/create', 'create');
+//     Route::post('/', 'store');
+//     Route::get('/{task}', 'show');
+//     Route::get('/{task}/edit', 'edit');
+//     Route::put('/{task}', 'update');
+//     Route::delete('/{task}', 'destroy');
+// });
+// OR
+// Route::resource('tasks', TaskController::class);
+// Route::resource('employees', EmployeeController::class);
 
-Route::prefix('services')->group(function () {
-    Route::view('/', 'static.services.all-services');
-    Route::view('shipping', 'static.services.shipping');
-    Route::view('transport', 'static.services.transport');
-    Route::view('delivery', 'static.services.delivery');
-    Route::get('list', function () {
-        return 'A list of our services are here...';
-    });
-});
 
-Route::prefix('products')->group(function () {
-
-    Route::get('/', function () {
-        return 'A list of our products are here...';
-    });
-
-    Route::get('{product}', function ($product) {
-        return "Product $product Page";
-    })->whereNumber('product');
-
-    Route::post('/', function (Request $request) {
-        return $request;
-    });
-
-    Route::put('{product}', function (Request $request, $product) {
-        return [
-            'Request Data' => $request->all(),
-            'Product ID' => $product,
-        ];
-    });
-
-    Route::delete('{product}', function ($product) {
-        return "Deleting {$product}...";
-    });
-
-    Route::get('by-category/{category}', function ($category) {
-        return "I will list all products in $category section";
-    })->whereAlpha('category');
-
-    // Instead of using this method
-    // Route::get('new-arrivals/sat', function ($day) {
-    //     return "A list of products arrived last $day";
-    // });
-    // Route::get('new-arrivals/sun', function ($day) {
-    //     return "A list of products arrived last $day";
-    // });
-    // Route::get('new-arrivals/mon', function ($day) {
-    //     return "A list of products arrived last $day";
-    // });
-    // Route::get('new-arrivals/tue', function ($day) {
-    //     return "A list of products arrived last $day";
-    // });
-    // Route::get('new-arrivals/wed', function ($day) {
-    //     return "A list of products arrived last $day";
-    // });
-    // Route::get('new-arrivals/thu', function ($day) {
-    //     return "A list of products arrived last $day";
-    // });
-    // Route::get('new-arrivals/fri', function ($day) {
-    //     return "A list of products arrived last $day";
-    // });
-
-    // use this method
-
-    Route::get('new-arrivals/{day}', function ($day) {
-        return "A list of products arrived last $day";
-    })->whereIn('day', ['sat', 'sun', 'mon', 'tue', 'wed', 'thu', 'fri']);
-
-});
+// Route::apiResource('tasks', TaskController::class);
+// Route::apiResource('employees', EmployeeController::class);
 
 Route::fallback(function () {
     return view('page-404');
