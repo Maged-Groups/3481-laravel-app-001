@@ -108,7 +108,7 @@ Route::prefix('Shipping companies')->group(function () {
     })->whereNumber('id');
 
     Route::get('special-companies/{companies}',function($companies){
-        return" i well all products in $companies section ";
+        return" i well all product in $companies section ";
     })->whereAlpha('companies');
 
 });
