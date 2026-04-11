@@ -83,3 +83,20 @@ Route::prefix('products')->group(function () {
 Route::fallback(function () {
     return view('page-404');
 });
+
+
+Route::prefix('shippers')->group(function () {
+    Route::get('/', function () { return 'A list of all shippers...'; });
+    Route::get('{country}/{city}', function ($country, $city) {
+        if ($city) {
+            return "Searching for shippers in $country / $city";
+        }
+       
+    });
+    Route::get('{shipper}', function ($shipper) { return "Shipper $shipper Page"; })->whereNumber('shipper');
+    Route::post('/', function (Request $request) { return $request->all(); });
+    Route::put('{shipper}', function (Request $request, $shipper) {
+        return ['Request Data' => $request->all(), 'Shipper ID' => $shipper];
+    });
+    Route::delete('{shipper}', function ($shipper) { return "Deleting shipper {$shipper}..."; });
+});
