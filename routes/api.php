@@ -2,29 +2,29 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
-    TaskController,
-    EmployeeController,
-    ProductController
+CustomerController,
+EmployeeController,
+ShipperController
 };
 
-// Extra Routes
-Route::prefix('employees')->controller(EmployeeController::class)->group(function() {
-    Route::get('withdraw', 'withdraw');
-    Route::get('candidate', 'candidate');
-    Route::get('new', 'new');
-    Route::get('training', 'training');
-    Route::get('vacations', 'vacations');
-    Route::get('day-off', 'dayOff');
-    Route::get('permissions/{type}', 'permissions');
-});
+route::prefix('customers')->controller(CustomerController::class)->group(function(){
+route::get('names','names');
+route::get('store','storee');
+//route::get('show/{id}',function($id){return "showing $id";});
+route::get('show/{id}','show'); //bdal ma el function cant hena b2et fel customer controller
 
-// API Routes
-Route::apiResources([
-    'tasks' => TaskController::class,
-    'employees' => EmployeeController::class,
-    'products' => ProductController::class,
+
+}); 
+route::apiresources(
+[
+'customers'=>CustomerController::class,
+'employees'=>EmployeeController::class,
+'shippers'=>ShipperController::class,
+
+
 ]);
 
-Route::fallback(function () {
-    return view('page-404');
+route::fallback(function(){
+return view('page-404');
+
 });

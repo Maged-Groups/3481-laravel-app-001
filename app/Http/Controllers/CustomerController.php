@@ -4,30 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return "customer request";
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function storee(Request $request)
     {
-        //
+        return "customer store";
     }
 
     /**
@@ -35,15 +27,7 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+   return"CustomerController SHOW :$id";
     }
 
     /**
@@ -60,5 +44,16 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function names(){
+        return [
+'names'=> [
+    '1'=>'marwan',
+    '2'=>'mohamed',
+    '3'=>'adel',
+]
+
+        ];
     }
 }
