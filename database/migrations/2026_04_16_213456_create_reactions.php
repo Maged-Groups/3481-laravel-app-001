@@ -11,11 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cities', function (Blueprint $table) {
+        Schema::create('reactions', function (Blueprint $table) {
             $table->id();
-            $table->string('city');
-            $table->bigInteger('country_id');
+            $table->foreignId("user_id")->constrained("users");
+            $table->foreignId("reaction_type_id")->constrained("reaction_types");
+            $table->integer("reactable_id");
+            $table->string("reactable_type");
+
             $table->timestamps();
+            $table->timestamp("deleted_at");
         });
     }
 
@@ -24,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cities');
+        Schema::dropIfExists('reactions');
     }
 };

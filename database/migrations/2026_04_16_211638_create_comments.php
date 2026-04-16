@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('countries', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->string('country', 100);
+            $table->string("comment");
+            $table->foreignId("post_id")->constrained("posts");
+            $table->foreignId("user_id")->constrained("users");
             $table->timestamps();
+            $table->timestamp('deleted_at');
         });
     }
 
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('countries');
+        Schema::dropIfExists('comments');
     }
 };

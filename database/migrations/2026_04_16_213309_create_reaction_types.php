@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('suppliers', function (Blueprint $table) {
-            $table->string('area', 100)->after('address');
+        Schema::create('reaction_types', function (Blueprint $table) {
+            $table->id();
+            $table->string("type");
+
+            $table->timestamps();
+            $table->timestamp("deleted_at");
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('suppliers', function (Blueprint $table) {
-            $table->dropColumn('area');
-        });
+        Schema::dropIfExists('reaction_types');
     }
 };
