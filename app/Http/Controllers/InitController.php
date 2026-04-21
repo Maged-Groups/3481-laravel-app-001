@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Artisan;
 class InitController extends Controller
 {
     private $models = [
+        'User',
         'PostStatus',
         'ReactionType',
         'Post',
@@ -49,16 +50,16 @@ class InitController extends Controller
         }
     }
 
-    public function Models()
-    {
+   public function models()
+{
+    foreach ($this->models as $model) {
+        Artisan::call('make:model', [
+            'name' => $model,
+            '--all' => true,
+            '--force' => true,
+        ]);
 
-        foreach ($this->models as $model) {
-            Artisan::call('make:model', [
-                'name' => $model,
-                '-a' => true,
-            ]);
-
-            sleep(1);
-        }
+        sleep(1);
     }
+}
 }
