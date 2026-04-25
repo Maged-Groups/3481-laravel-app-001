@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('post_statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('type', 20);
+            $table->string('type', 20)->unique();
             $table->timestamps();
             $table->softDeletes();
         });
