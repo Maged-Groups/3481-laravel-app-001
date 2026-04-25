@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -11,14 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reactions', function (Blueprint $table) {
+      Schema::create('post_statuses', function (Blueprint $table) {
             $table->id();
-             $table->integer('user_id');
-             $table->foreignId('reaction_type_id')->constrained();
-            $table->morphs('reactble');
+            $table->string('type',20);
             $table->timestamps();
             $table->softDeletes();
-          
           
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reactions');
+        Schema::dropIfExists('post_statuses');
     }
 };

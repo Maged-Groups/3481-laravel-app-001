@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::table('suppliers', function (Blueprint $table) {
         $table->string('area',150)->after('addres');
-        $table->timestamp('delete-at');
-        $table->timestamp('added-by;');
+        
+    
         });
     }
 
@@ -25,8 +25,8 @@ return new class extends Migration
     {
         Schema::table('suppliers', function (Blueprint $table) {
             $table->dropColumn('area');
-            $table->dropColumn('delete-at');
-            $table->dropColumn('added-by');
+        
+        
        
         });
     }

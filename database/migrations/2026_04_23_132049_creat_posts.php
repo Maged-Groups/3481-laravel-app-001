@@ -1,5 +1,6 @@
-<?php
 
+<?php
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,15 +12,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reactions', function (Blueprint $table) {
+        Schema::create('posts', function (Blueprint $table) {
             $table->id();
-             $table->integer('user_id');
-             $table->foreignId('reaction_type_id')->constrained();
-            $table->morphs('reactble');
+            $table->text('title');
+            $table->text('body');
+            $table->foreignIdFor(User::class)->CONSTRAINED();
+            $table->foreignId('post_status_id')->constrained();
             $table->timestamps();
             $table->softDeletes();
           
-          
+
         });
     }
 
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reactions');
+        Schema::dropIfExists('posts');
     }
 };

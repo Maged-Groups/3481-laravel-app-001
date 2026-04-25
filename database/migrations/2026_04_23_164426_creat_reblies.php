@@ -11,23 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reactions', function (Blueprint $table) {
+        Schema::create('reblies', function (Blueprint $table) {
             $table->id();
-             $table->integer('user_id');
-             $table->foreignId('reaction_type_id')->constrained();
-            $table->morphs('reactble');
+            $table->string('replay','500');
+            $table->foreignId('comment_id')->constrained();
+             $table->foreignId('user_id')->constrained();
             $table->timestamps();
             $table->softDeletes();
-          
-          
+    
         });
     }
 
     /**
+     * 
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('reactions');
+        Schema::dropIfExists('reblies');
     }
 };

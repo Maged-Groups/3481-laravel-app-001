@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('reaction_types', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at');
-            $table->timestamp('deleted_at');
+            $table->timestamps();
+            $table->softDeletes();
 
         });
     }

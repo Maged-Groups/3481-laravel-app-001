@@ -1,18 +1,11 @@
 <?php
-
-
-//Use App\Http\Controllers\EmployeeController;
-//use App\Http\Controllers\TaskController;
+use app\Http\Controllers\InitController;
+use App\Http\Controllers\SystemController;
+use App\Http\Controllers\TaskController;
 use Faker\Provider\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{
-    SuplierController,
-    CustomerController,
-    EmployeeController,
-     ShiperController
-};
-
+ 
 
 
 
@@ -73,9 +66,9 @@ Route::view('laptobtypes', 'types/laptobtypes');
 Route::view('phonetypes', 'types\phonetypes');
 
 Route::prefix('Transportation')->group(function () {
-    Route::View('ships', 'transportation\ships');
-    Route::view('cars', 'transportation\cars');
-    Route::view('trains', 'transportation\trains');
+ Route::View('ships', 'transportation\ships');
+ Route::view('cars', 'transportation\cars');
+ Route::view('trains', 'transportation\trains');
 
 });
 
@@ -123,13 +116,13 @@ Route::prefix('shipping-companies')->group(function () {
 
 });
 
-// Route::get('task',function(){
-// ?>
-//<h1>all task</h1>
+ Route::get('task',function(){
+ ?>
+<h1>all task</h1>
 
-//
+
 <?php
-//});
+});
 
 //Route::prefix('tasks')->group(function(){
 
@@ -152,14 +145,13 @@ Route::prefix('customers')->Controller(CustomerController::class)->group(functio
 
 });
 
+Route::prefix('supliers')->Controller(SupliersController::class)->group(function(){
+    Route::get('name','name');
+     Route::get('number','number');
+      Route::get('addres','addres');
+      Route::get('email','email');
 
-//Route::prefix('supliers')->Controller(SupliersController::class)->group(function(){
-    //Route::get('name','name');
-    // Route::get('number','number');
-     // Route::get('addres','addres');
-     //  Route::get('email','email');
-
-//});
+});
 
 
 
@@ -172,11 +164,11 @@ Route::prefix('employyes')->Controller(EmployyesController::class)->group(functi
 });
 
 
-//Route::prefix('shipers')->Controller(ShiperController::class)->group(function(){
-    //Route::get('name','name');
-    // Route::get('number','number');
-     // Route::get('addres','addres');
-     //  Route::get('email','email');
+Route::prefix('shipers')->Controller(ShiperController::class)->group(function(){
+Route::get('name','name');
+ Route::get('number','number');
+  Route::get('addres','addres');
+  Route::get('email','email');
 
 //});
 
@@ -189,12 +181,21 @@ Route::apiResources([
     'employyes' => 'EmployyeController::class',
     'shipers' => 'ShiperController::class',
 ]);
+Route::prefix('init')->controller(InitController::class)->group(function () {
+    Route::get('migrations', 'migrations');
+     Route::get('controllers', 'controllers');
+      Route::get('models', 'models');
+});
 
-route::fallback(function () {
-    return view('page-404');
+
+Route::perfix ('system')->controller(SystemController::class)->group(function(){
+route::get('models','models');
+route::get('controllers','controllers');
+Route::get('models', 'models');
 
 });
 
 
-
-
+  Route::fallback(function () {
+   return view('page-404');
+   }); 
