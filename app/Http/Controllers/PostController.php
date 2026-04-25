@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
-use App\Models\User;
+use App\Models\Post;
 
 class PostController extends Controller
 {
@@ -14,12 +13,12 @@ class PostController extends Controller
      */
     public function index()
     {
-        // return User::all()->random();
-        // return User::inRandomOrder()->get();
-        
-        return User::all()->random()->id;
-        return User::inRandomOrder()->first()->id;
+        // NOT real (Return all data)
+        // $posts = Post::with(['comments', 'user', 'postStatus', 'reactions'])->get();
 
+        $posts = Post::with(['user', 'postStatus'])->withCount(['comments', 'reactions'])->get();
+
+        return $posts;
     }
 
     /**

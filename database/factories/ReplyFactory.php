@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Comment;
 use App\Models\Reply;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,8 +19,10 @@ class ReplyFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            //
+         return [
+            'reply' => fake()->text(500),
+            'comment_id' => Comment::inRandomOrder()->first()->id,
+            'user_id' => User::inRandomOrder()->first()->id,
         ];
     }
 }

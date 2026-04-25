@@ -16,9 +16,13 @@ class DatabaseSeeder extends Seeder
     {
         // call the seeders in order
         $this->call([
-            // UserSeeder::class,
-            // PostStatusSeeder::class,
+            UserSeeder::class,
+            PostStatusSeeder::class,
+            ReactionTypeSeeder::class,
             PostSeeder::class,
+            CommentSeeder::class,
+            ReplySeeder::class,
+            // ReactionSeeder::class,
         ]);
     }
 }
