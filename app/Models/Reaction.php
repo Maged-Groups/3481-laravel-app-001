@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use Database\Factories\ReactionFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
+#[Fillable(['user_id', 'reaction_type_id', 'reactable_type', 'reactable_id'])]
 class Reaction extends Model
 {
     /** @use HasFactory<ReactionFactory> */
@@ -29,6 +31,4 @@ class Reaction extends Model
     {
         return $this->morphTo();
     }
-
-
 }
