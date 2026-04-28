@@ -23,7 +23,7 @@ Route::prefix('init')->controller(InitController::class)->group(function () {
 Route::apiResources([
     'comments' => CommentController::class,
     'posts' => PostController::class,
-    'posts-statuses' => PostStatusController::class,
+    'post-statuses' => PostStatusController::class,
     'reactions' => ReactionController::class,
     'reaction-types' => ReactionTypeController::class,
     'replies' => ReplyController::class,

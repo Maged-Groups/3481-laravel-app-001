@@ -23,7 +23,7 @@ class PostFactory extends Factory
             'title' => fake()->text(100),
             'body' => fake()->text(),
             'user_id' => User::inRandomOrder()->first()->id,
-            'post_status' => PostStatus::all()->random()->id,
+            'post_status_id' => PostStatus::all()->random()->id,
         ];
     }
 }
