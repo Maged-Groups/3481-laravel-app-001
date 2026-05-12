@@ -17,11 +17,6 @@ Route::prefix('auth')->controller(AuthController::class)->group(function () {
     Route::post('register', 'register');
     Route::post('forget-password', 'forget_password');
     Route::post('reset-password', 'reset_password');
-    Route::post('change-password', 'change_password');
-    Route::post('active-sessions', 'active_sessions');
-    Route::post('logout-all', 'logout_all');
-    Route::post('logout-current', 'logout_current');
-    Route::post('logout-others', 'logout_others');
 });
 
 // Init
@@ -43,4 +38,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
         'replies' => ReplyController::class,
         'users' => UserController::class,
     ]);
+
+    // Auth
+    Route::prefix('auth')->controller(AuthController::class)->group(function () {
+        Route::post('change-password', 'change_password');
+        Route::post('active-sessions', 'active_sessions');
+        Route::post('logout-session', 'logout_session');
+        Route::post('logout-current', 'logout_current');
+        Route::post('logout-others', 'logout_others');
+        Route::post('logout-all', 'logout_all');
+    });
 });
