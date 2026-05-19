@@ -1,0 +1,2 @@
+<h1>Welcome to our blog</h1>
+<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed a aliquam voluptatum, ipsa tenetur amet aliquid quas neque ipsam in id tempora dolorem minus eos temporibus perspiciatis, libero ut nihil!</p>
