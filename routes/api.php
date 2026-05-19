@@ -42,10 +42,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Auth
     Route::prefix('auth')->controller(AuthController::class)->group(function () {
         Route::post('change-password', 'change_password');
-        Route::post('active-sessions', 'active_sessions');
-        Route::post('logout-session', 'logout_session');
-        Route::post('logout-current', 'logout_current');
-        Route::post('logout-others', 'logout_others');
-        Route::post('logout-all', 'logout_all');
+        Route::get('active-sessions', 'active_sessions');
+        Route::get('logout-session/{id}', 'logout_session');
+        Route::get('logout-current', 'logout_current');
+        Route::get('logout-others', 'logout_others');
+        Route::delete('logout-all', 'logout_all');
     });
 });

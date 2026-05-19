@@ -82,13 +82,56 @@ class AuthController extends Controller
         return 'Wrong Password!!!';
     }
 
-    public function active_sessions() {}
+    public function active_sessions()
+    {
+        $current = auth()->user()->currentAccessToken();
 
-    public function logout_session() {}
-    
-    public function logout_current() {}
-    
-    public function logout_others() {}
-    
-    public function logout_all() {}
+        return [
+            'current' => $current,
+            // 'all' => $all,
+        ];
+    }
+
+    public function logout_session(int $id)
+    {
+        $session = auth()->user()->tokens()->where('id', $id)->first();
+
+        if ($session && $session->delete()) {
+            return 'Selected session was revoked successfully';
+        }
+
+        return 'Cannot revoke selected session';
+    }
+
+    public function logout_current()
+    {
+        if (auth()->user()->currentAccessToken()->delete()) {
+            return 'Logged out successfully';
+        }
+
+        return 'Cannot Log out now';
+    }
+
+    public function logout_others()
+    {
+        $current = auth()->user()->currentAccessToken()->id;
+
+        $deleted = auth()->user()->tokens()->whereNot('id', $current)->delete();
+
+        if ($deleted) {
+            return 'All other sessions were closed successfully';
+        }
+
+        return 'Cannot log out from all you sessions at the moment, please try again later';
+    }
+
+    public function logout_all()
+    {
+        if (auth()->user()->tokens()->delete()) {
+            return 'Logged out from all accounts';
+        }
+
+        return 'Cannot log out at the moment, please try again in few seconds.';
+
+    }
 }
