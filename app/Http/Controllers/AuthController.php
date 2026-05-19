@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ChangePasswordRequest;
+use App\Http\Requests\ForgetPasswordRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
@@ -57,7 +59,17 @@ class AuthController extends Controller
 
     }
 
-    public function forget_password() {}
+    public function forget_password(ForgetPasswordRequest $request)
+    {
+
+        $email = $request->email;
+
+        $user = User::where('email', $email)->first();
+
+        $token = Password::createToken($user);
+
+        return $token;
+    }
 
     public function reset_password() {}
 
