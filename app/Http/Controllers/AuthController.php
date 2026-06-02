@@ -6,9 +6,12 @@ use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\ForgetPasswordRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\ResetPasswordRequest;
+use App\Mail\ForgetPasswordMail;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
@@ -65,13 +68,43 @@ class AuthController extends Controller
         $email = $request->email;
 
         $user = User::where('email', $email)->first();
-
         $token = Password::createToken($user);
 
-        return $token;
+        $expireMinutes = '10';
+        $userName = $user->name;
+        $resetUrl = "https://www.mywebsite.com/reset-password?token=$token";
+
+        if (Mail::to($email)->send(new ForgetPasswordMail($userName, $email, $expireMinutes, $resetUrl))) {
+            return 'You have received a reset password email, please check your inbox.';
+        } else {
+            return 'Cannot reset your email at the moment, please reload the page and try again.';
+        }
     }
 
-    public function reset_password() {}
+    public function reset_password(ResetPasswordRequest $request)
+    {
+        $credentials = $request->validated();
+
+        $user = User::where('email', $credentials['email'])->first();
+
+        $result = Password::reset($credentials, function ($user, $new_password) {
+
+            $user->password = $new_password;
+
+            if ($user->save()) {
+                return true;
+            }
+
+            return fasle;
+
+        });
+
+        if ($result = 'passwords.reset') {
+            return 'Passwrd reset successfully';
+        }
+
+        return 'Cannot reset the password....';
+    }
 
     public function change_password(ChangePasswordRequest $request)
     {
