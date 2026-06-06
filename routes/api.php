@@ -9,6 +9,7 @@ use App\Http\Controllers\ReactionController;
 use App\Http\Controllers\ReactionTypeController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\UserController;
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
 // Public Routes
@@ -25,6 +26,7 @@ Route::prefix('init')->controller(InitController::class)->group(function () {
     Route::get('migrations', 'migrations');
     Route::get('controllers', 'controllers');
     Route::get('models', 'models');
+    Route::get('resources', 'resources');
 });
 
 // Private Routes
@@ -49,3 +51,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('logout-all', 'logout_all');
     });
 });
+ 

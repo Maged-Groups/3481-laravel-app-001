@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use App\Http\Resources\PostCollection;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
-use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -14,20 +15,18 @@ class PostController extends Controller
      */
     public function index()
     {
-        // NOT real (Return all data)
-        // $posts = Post::with(['comments', 'user', 'postStatus', 'reactions'])->get();
+        // In one step
+        // $posts = Post::withCount(['user', 'reactions'])->get();
 
-        $posts = Post::with(['user', 'postStatus'])->withCount(['comments', 'reactions'])->get();
+        // In 2 steps
+        $posts = Post::withCount(['user', 'reactions'])->get();
+        // $posts->load(['user', 'postStatus']);
 
-        return $posts;
-    }
+        // $postsCollection = PostResource::collection($posts);
+        // $postsCollection = new PostCollection($posts);
+        $postsCollection = PostCollection::make($posts);
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return $postsCollection;
     }
 
     /**
@@ -35,9 +34,11 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        $post_data =  $request->validated();
+        $post_data = $request->validated();
 
-        return Post::create($post_data);
+        $new_post = Post::create($post_data);
+        
+        return PostResource::make($new_post);
     }
 
     /**
@@ -45,7 +46,13 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        $post->load(['user', 'postStatus', 'comments']);
+
+        // $postResource = PostResource::make($post);
+        // OR //
+        $postResource = new PostResource($post);
+
+        return $postResource;
     }
 
     /**

@@ -72,4 +72,23 @@ class InitController extends Controller
             sleep(1);
         }
     }
+
+    public function resources()
+    {
+        $all = count($this->models);
+        $created = 0;
+
+        foreach ($this->models as $model) {
+            Artisan::call('make:resource', [
+                'name' => $model.'Resource',
+            ]);
+            Artisan::call('make:resource', [
+                'name' => $model.'Collection',
+            ]);
+
+            $created++;
+        }
+
+        return "$created / $all resources created successfully.";
+    }
 }
