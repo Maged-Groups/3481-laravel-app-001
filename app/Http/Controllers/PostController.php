@@ -26,7 +26,7 @@ class PostController extends Controller
         // $postsCollection = new PostCollection($posts);
         $postsCollection = PostCollection::make($posts);
 
-        return $postsCollection;
+        return $this->jsonResponse( 200, count($posts) . ' posts found', $postsCollection);
     }
 
     /**
