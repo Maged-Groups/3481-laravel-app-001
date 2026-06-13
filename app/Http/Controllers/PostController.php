@@ -36,6 +36,8 @@ class PostController extends Controller
     {
         $post_data = $request->validated();
 
+        $post_data['user_id'] = $request->user()->id;
+
         $new_post = Post::create($post_data);
         
         return PostResource::make($new_post);
