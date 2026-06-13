@@ -11,8 +11,8 @@ class UpdatePostRequest extends FormRequest
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
-    {
-        return false;
+    { 
+        return $this->user()->can('update', $this->route('post'));
     }
 
     /**
@@ -23,7 +23,9 @@ class UpdatePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'between:3,100',
+            'body' => 'min:50',
+            'post_status_id' => 'exists:post_statuses,id',
         ];
     }
 }

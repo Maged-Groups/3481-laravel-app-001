@@ -18,7 +18,7 @@ class EnsureUserHasRole
      */
     public function handle(Request $request, Closure $next, string ...$roles): Response
     {
-        $userRoles = explode(',', $request->user()->roles);
+        $userRoles = $request->user()->roles;
 
         $found = array_intersect($roles, $userRoles);
 

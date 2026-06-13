@@ -24,7 +24,7 @@ class AuthController extends Controller
 
         if ($auth) {
             $user = auth()->user();
-            $abilities = [$user->roles];
+            $abilities = $user->roles;
             $token = $user->createToken('login', $abilities)->plainTextToken;
 
             // Method 1: Generate array of user and token
@@ -49,7 +49,7 @@ class AuthController extends Controller
     public function register(RegisterRequest $request)
     {
         $data = $request->validated();
-        $abilities = 'guest';
+        $abilities = ['guest'];
         $data['roles'] = $abilities;
 
         $user = User::create($data);

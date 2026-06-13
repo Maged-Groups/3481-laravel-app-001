@@ -25,7 +25,7 @@ class StoreUserRequest extends FormRequest
     {
         return [
             'name' => 'required|between:3,50',
-            'roles' => ['required', Rule::in(['admin', 'guest', 'editor', 'reviewer'])],
+            'roles' => 'required|array',
             'email' => 'required|email|unique:users,email|confirmed',
             'mobile' => 'required|unique:users,mobile|regex:/^01[0125]\d{8}$/',
             'password' => 'required|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$/',

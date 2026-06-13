@@ -10,7 +10,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
 
 #[Fillable(['name', 'email', 'password', 'roles', 'mobile'])]
 #[Hidden(['password', 'remember_token'])]
@@ -30,6 +33,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Attributes
+    public function roles () :Attribute {
+        return new Attribute(
+            get: fn ($val) => explode(',',$val),
+            set: fn ($val) => implode(',', $val)
+        );
+    }
+
+    public function name () :Attribute{
+        return new Attribute(
+            get: Str::upper(...),
+            set: Str::ucfirst(...)
+        );
     }
 
     // Relationships
@@ -52,5 +70,14 @@ class User extends Authenticatable
     public function reactions(): HasMany
     {
         return $this->hasMany(Reaction::class);
+    }
+
+    public function isAdmin () : bool {
+
+
+        $userRoles =  $this->roles ;
+        $isAdmin = in_array('admin',$userRoles);
+
+        return $isAdmin;
     }
 }

@@ -26,7 +26,7 @@ class PostController extends Controller
         // $postsCollection = new PostCollection($posts);
         $postsCollection = PostCollection::make($posts);
 
-        return $this->jsonResponse( 200, count($posts) . ' posts found', $postsCollection);
+        return $this->jsonResponse(200, count($posts).' posts found', $postsCollection);
     }
 
     /**
@@ -39,7 +39,7 @@ class PostController extends Controller
         $post_data['user_id'] = $request->user()->id;
 
         $new_post = Post::create($post_data);
-        
+
         return PostResource::make($new_post);
     }
 
@@ -58,19 +58,11 @@ class PostController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Post $post)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        //
+        return $request->validated();
     }
 
     /**
@@ -78,6 +70,6 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        // Call 
     }
 }

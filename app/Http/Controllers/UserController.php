@@ -31,7 +31,11 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        //
+        $data =  $request->validated();
+
+         $user = User::create($data);
+
+         return $user;
     }
 
     /**
