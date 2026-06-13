@@ -9,7 +9,6 @@ use App\Http\Controllers\ReactionController;
 use App\Http\Controllers\ReactionTypeController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\UserController;
-use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
 // Public Routes
@@ -34,12 +33,18 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResources([
         'comments' => CommentController::class,
         'posts' => PostController::class,
-        'post-statuses' => PostStatusController::class,
         'reactions' => ReactionController::class,
-        'reaction-types' => ReactionTypeController::class,
         'replies' => ReplyController::class,
         'users' => UserController::class,
     ]);
+
+    // Admins Only Routes
+    Route::middleware(['hasRole:user,viewer'])->group(function () {
+        Route::apiResources([
+            'reaction-types' => ReactionTypeController::class,
+            'post-statuses' => PostStatusController::class,
+        ]);
+    });
 
     // Auth
     Route::prefix('auth')->controller(AuthController::class)->group(function () {
@@ -51,4 +56,3 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('logout-all', 'logout_all');
     });
 });
- 
