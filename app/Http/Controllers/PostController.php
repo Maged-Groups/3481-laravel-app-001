@@ -7,6 +7,7 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostCollection;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -34,13 +35,17 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
+        // Gate::authorize('create');
+
         $post_data = $request->validated();
 
         $post_data['user_id'] = $request->user()->id;
 
         $new_post = Post::create($post_data);
 
-        return PostResource::make($new_post);
+        $data =  PostResource::make($new_post);
+
+        return $this->jsonResponse(201, 'Post created successfully', $data);
     }
 
     /**
@@ -70,6 +75,6 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        // Call 
+        // Call
     }
 }

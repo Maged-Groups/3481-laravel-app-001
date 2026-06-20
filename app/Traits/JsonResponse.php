@@ -89,8 +89,8 @@ trait JsonResponse
             'code' => $code,
             'message' => $message,
             'data' => $data,
-        ];
+                ];
 
-        return response()->json($response);
+        return response()->json($response, $code);
     }
 }

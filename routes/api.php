@@ -10,6 +10,7 @@ use App\Http\Controllers\ReactionTypeController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 // Public Routes
 Route::prefix('auth')->controller(AuthController::class)->group(function () {
@@ -55,4 +56,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('logout-others', 'logout_others');
         Route::delete('logout-all', 'logout_all');
     });
+});
+
+Route::fallback(function () {
+    throw new NotFoundHttpException('API Route Not Found');
 });
