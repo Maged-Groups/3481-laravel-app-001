@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
     {
           User::factory()->create([
             'name' => 'Maged Yaseen',
-            'roles' => 'admin',
+            'roles' => ['admin'],
             'email' => 'magedyaseengroups@gmail.com',
             'mobile' => '01024750245',
             'password' => 'password',
