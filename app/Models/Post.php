@@ -10,13 +10,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 // #[Guarded(['id'])]
 #[Fillable(['title', 'body', 'user_id', 'post_status_id'])]
 class Post extends Model
 {
     /** @use HasFactory<PostFactory> */
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     // protected $guarded = [
     //     'id',
@@ -28,6 +29,19 @@ class Post extends Model
     //     'user_id',
     //     'post_status_id',
     // ];
+
+    public const POST_KEY = 'posts_key';
+    public const POST_EXPIRATION = 60 * 60 * 24 * 30; // 30 days
+
+    public function getPostsKey(): string
+    {
+        return $this->posts_key;
+    }
+
+    public function getPostsExpiration(): int
+    {
+        return $this->posts_expiration;
+    }
 
     // Relationships
     public function comments(): HasMany

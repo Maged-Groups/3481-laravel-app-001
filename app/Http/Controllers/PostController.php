@@ -7,27 +7,44 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostCollection;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class PostController extends Controller
 {
+    /**
+     * Cache the posts into cache store
+     *
+     * @return array|mixed
+     */
+    private function cachePosts()
+    {
+        return Cache::rememberForever(Post::POST_KEY, fn () =>   Post::with(['user', 'postStatus', 'comments'])->get()->toArray() );
+    }
+
+    /**
+     * Hydrate the posts (Turn array to collection)
+     *
+     * @param  array  $posts
+     * @return Collection
+     */
+    private function hydratePosts($posts)
+    {
+        return Post::hydrate($posts);
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        // In one step
-        // $posts = Post::withCount(['user', 'reactions'])->get();
+        $posts = $this->cachePosts();
 
-        // In 2 steps
-        $posts = Post::withCount(['user', 'reactions'])->get();
-        // $posts->load(['user', 'postStatus']);
+        $models = $this->hydratePosts($posts);
 
-        // $postsCollection = PostResource::collection($posts);
-        // $postsCollection = new PostCollection($posts);
-        $postsCollection = PostCollection::make($posts);
+        $postsCollection = PostCollection::make($models);
 
-        return $this->jsonResponse(200, count($posts).' posts found', $postsCollection);
+        return $this->jsonResponse(200, $models->count().' posts found', $postsCollection);
     }
 
     /**
@@ -43,7 +60,13 @@ class PostController extends Controller
 
         $new_post = Post::create($post_data);
 
-        $data =  PostResource::make($new_post);
+        if ($new_post) {
+            Cache::forget(Post::POST_KEY);
+
+            $this->cachePosts();
+        }
+
+        $data = PostResource::make($new_post);
 
         return $this->jsonResponse(201, 'Post created successfully', $data);
     }
@@ -67,7 +90,21 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        return $request->validated();
+       $data = $request->validated();
+
+       $updated_post = $post->update($data);
+
+       if ($updated_post) {
+        Cache::forget(Post::POST_KEY);
+
+        $this->cachePosts();
+
+        $data = PostResource::make($post);
+
+        return $this->jsonResponse(200, 'Post updated successfully', $data);
+       }
+
+       return $this->jsonResponse(400, 'Post not updated', null);
     }
 
     /**
@@ -75,6 +112,14 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        // Call
+        $deleted_post = $post->delete();
+
+        if ($deleted_post) {
+            Cache::forget(Post::POST_KEY);
+
+            $this->cachePosts();
+        }
+
+        return $this->jsonResponse(200, 'Post deleted successfully');
     }
 }

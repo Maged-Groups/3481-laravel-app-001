@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Resources\UserCollection;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller
 {
@@ -13,9 +15,19 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
 
-        return $this->jsonResponse(200, count($users).' users found.', $users);
+
+        $users = Cache::rememberForever('all_users', function () {
+            return User::with(['posts', 'comments'])->get()->toArray();
+        });
+
+        // dd($users);
+
+        $models = User::hydrate($users);
+
+        $collection = UserCollection::make($models);
+
+        return $this->jsonResponse(200, count($users).' users found.', $collection);
     }
 
     /**
